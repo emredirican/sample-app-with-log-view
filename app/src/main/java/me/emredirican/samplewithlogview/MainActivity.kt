@@ -2,12 +2,15 @@ package me.emredirican.samplewithlogview
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.squareup.seismic.ShakeDetector
 import dagger.hilt.android.AndroidEntryPoint
 import me.emredirican.samplewithlogview.ui.main.MainFragment
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ShakeDetector.Listener {
+
+  @Inject lateinit var earthQuakeListener: EarthQuakeListener
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -17,5 +20,9 @@ class MainActivity : AppCompatActivity() {
           .replace(R.id.container, MainFragment.newInstance())
           .commitNow()
     }
+  }
+
+  override fun hearShake() {
+    earthQuakeListener.onEarthQuake()
   }
 }
